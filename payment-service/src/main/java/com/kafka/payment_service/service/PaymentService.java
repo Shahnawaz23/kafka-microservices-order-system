@@ -53,6 +53,7 @@ public class PaymentService {
                     paymentId,
                     "UPI",
                     "SUCCESS",
+                    order.getDeliveryAddress(),
                     null
             );
 
@@ -74,6 +75,7 @@ public class PaymentService {
                     paymentId,
                     "UPI",
                     "FAILED",
+                    order.getDeliveryAddress(),
                     "INSUFFICIENT_FUNDS"
             );
 

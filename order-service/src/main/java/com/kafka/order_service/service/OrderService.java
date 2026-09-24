@@ -25,9 +25,9 @@ public class OrderService {
         orderResponse.setOrderId(orderEntityResponse.getOrderId());
         orderResponse.setOrderStatus("CREATED");
 
-        String eventResponse = Event.createEvent(orderEntityResponse);
+        String message = Event.createEvent(orderEntityResponse);
 
-        kafkaService.sendMessage("order-created", orderResponse.getOrderId(), eventResponse);
+        kafkaService.sendMessage("", orderResponse.getOrderId(), message);
 
         return orderResponse;
     }

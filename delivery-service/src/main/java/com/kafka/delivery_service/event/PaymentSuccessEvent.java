@@ -1,4 +1,4 @@
-package com.kafka.payment_service.event;
+package com.kafka.delivery_service.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentEvent {
+public class PaymentSuccessEvent {
 
     private String eventId;
     private String eventType;
@@ -20,5 +20,4 @@ public class PaymentEvent {
     private String paymentMethod;
     private String paymentStatus;
     private String deliveryAddress;
-    private String reason;
 }

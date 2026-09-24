@@ -6,6 +6,7 @@ import com.kafka.payment_service.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
 @Service
@@ -18,28 +19,12 @@ public class OrderCreatedConsumer {
     private ObjectMapper objectMapper;
 
     @KafkaListener(topics = "order-created", groupId = "payment-service")
-    public void consume(String message) {
+    public void consume(String message) throws JacksonException {
 
-        try {
+            System.out.println("Payment Service received: " + message);
 
-            System.out.println(
-                    "Payment Service received: " + message
-            );
-
-            OrderCreatedEvent order =
-                    objectMapper.readValue(
-                            message,
-                            OrderCreatedEvent.class
-                    );
+            OrderCreatedEvent order = objectMapper.readValue(message, OrderCreatedEvent.class);
 
             paymentService.processPayment(order);
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Error processing order-created event: "
-                            + e.getMessage()
-            );
-        }
     }
 }

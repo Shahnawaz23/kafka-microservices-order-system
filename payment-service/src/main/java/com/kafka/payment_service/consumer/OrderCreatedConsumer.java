@@ -3,6 +3,7 @@ package com.kafka.payment_service.consumer;
 import com.kafka.payment_service.event.OrderCreatedEvent;
 import com.kafka.payment_service.service.PaymentService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
@@ -10,14 +11,11 @@ import tools.jackson.databind.ObjectMapper;
 @Service
 public class OrderCreatedConsumer {
 
-    private final PaymentService paymentService;
-    private final tools.jackson.databind.ObjectMapper objectMapper;
+    @Autowired
+    private PaymentService paymentService;
 
-    public OrderCreatedConsumer(PaymentService paymentService, ObjectMapper objectMapper) {
-
-        this.paymentService = paymentService;
-        this.objectMapper = objectMapper;
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @KafkaListener(topics = "order-created", groupId = "payment-service")
     public void consume(String message) {

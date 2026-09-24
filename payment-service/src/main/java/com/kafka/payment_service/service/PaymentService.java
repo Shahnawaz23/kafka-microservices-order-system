@@ -5,22 +5,19 @@ import com.kafka.payment_service.event.OrderCreatedEvent;
 import com.kafka.payment_service.event.PaymentEvent;
 import com.kafka.payment_service.repository.PaymentRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class PaymentService {
 
-    private final PaymentRepository paymentRepository;
-    private final KafkaService kafkaService;
-    private final ObjectMapper objectMapper;
-
-    public PaymentService(PaymentRepository paymentRepository, KafkaService kafkaService, ObjectMapper objectMapper) {
-
-        this.paymentRepository = paymentRepository;
-        this.kafkaService = kafkaService;
-        this.objectMapper = objectMapper;
-    }
+    @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
+    private  KafkaService kafkaService;
+    @Autowired
+    private  ObjectMapper objectMapper;
 
     public void processPayment(OrderCreatedEvent order) {
 

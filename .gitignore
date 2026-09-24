@@ -19,3 +19,4 @@ out/
 .env
 application-local.properties
 application-local.yml
+application.properties

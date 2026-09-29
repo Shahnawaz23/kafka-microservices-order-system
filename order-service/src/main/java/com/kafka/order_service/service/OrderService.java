@@ -7,12 +7,16 @@ import com.kafka.order_service.repository.OrderRepository;
 import com.kafka.order_service.response.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class OrderService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     KafkaService kafkaService;
@@ -25,14 +29,19 @@ public class OrderService {
         orderResponse.setOrderId(orderEntityResponse.getOrderId());
         orderResponse.setOrderStatus("CREATED");
 
-        String message = Event.createEvent(orderEntityResponse);
+        Event event = new Event("PAY-"+orderEntity.getOrderId(), "ORDER_CREATED", orderEntity.getOrderId(), orderEntity.getCustomerId(), orderEntity.getAmount(),orderEntity.getDeliveryAddress());
 
-        kafkaService.sendMessage("", orderResponse.getOrderId(), message);
+        publishEvent("order-created", orderEntity.getOrderId(), event);;
 
         return orderResponse;
     }
 
+    public void publishEvent(String topic, int key, Event event) {
 
+        String message = objectMapper.writeValueAsString(event);
+
+        kafkaService.sendMessage(topic, key, message);
+    }
 //    private String event(OrderEntity orderEntity) {
 //
 //        ObjectMapper objectMapper = new ObjectMapper();

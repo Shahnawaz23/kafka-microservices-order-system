@@ -21,7 +21,7 @@ public class Event {
     private double amount;
     private String deliveryAddress;
 
-    public static String createEvent(OrderEntity orderEntity) {
+    public String createEvent(OrderEntity orderEntity) {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
